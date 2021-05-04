@@ -5,5 +5,6 @@ class header
 {
 public:
 	header();
+private:
 };
 #endif // !header_h
