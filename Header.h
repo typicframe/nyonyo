@@ -3,6 +3,7 @@
 
 class header
 {
+public:
 	header();
 };
 #endif // !header_h
