@@ -1,11 +1,26 @@
 #include"Niuniu.h"
+#include"BetMoney.h"
+#include"washCard.h"
 #include<iostream>
+#include<iomanip>
+#include<Windows.h>
 using namespace std;
 
+int Niuniu::playTimes = 0;
 Niuniu::Niuniu()
 {
 	for (int i = 0; i < size; i++)
-		card[i] = 0;
+		card[i] = getFinallyCard(i);
+	for (int j = 0; j < 5; j++)
+	{
+		for (int i = 0; i < size - 1; i++)
+			if (card[i] > card[i + 1])
+			{
+				int a = card[i];
+				card[i] = card[i + 1];
+				card[i + 1] = a;
+			}
+	}
 }
 
 bool Niuniu::isGreatNiuniu()
@@ -57,7 +72,7 @@ bool Niuniu::isNothing()
 		return 0;
 }
 
-void Niuniu::printHowToPlay()
+void Niuniu::startToPlay()
 {
 	cout << "妞妞牌張介紹:" << endl;
 	cout << "  妞妞一般使用一副撲克牌。" << endl;
@@ -78,7 +93,76 @@ void Niuniu::printHowToPlay()
 	cout << "  此時可將前2張牌的點數相加，取其個位數即為這手牌的點數。前2張牌正好也是10的倍數便是「妞妞」，" << endl;
 	cout << "  如果5張手牌全部都是公牌稱為「至尊」或「五公」(部分博弈網站稱其為終極妞妞)。反之，如果5張手牌任取3張都無法組成妞，" << endl;
 	cout << "  就是「烏龍」。\n" << endl;
+	cout << "是否開始遊戲??是(請輸入Y)否(請輸入N) ";
+	char YorN;
+	cin >> YorN;
+	while (1)
+	{
+		if (YorN == 'Y')
+		{
+			cout << "開始遊戲\n\n";
+			Niuniu aaaaa;
+			aaaaa.kkkkk(); int playerMoney, total = 0;
+			cout << "請輸入你的賭金(不玩請輸入-1): ";
+			cin >> playerMoney;
+			while (playerMoney != -1)
+			{
+				BetMoney c(playerMoney);
+				c.isMoneyBigThanZero();
+				if (c.IsMoneyBigThanZero())
+				{
+					cout << "你的牌是:\n";
+					Niuniu player;
+					player.printWashCard();
+					player.printPoint();
 
+					Sleep(1000);
+					cout << "莊家的牌是:\n";
+					Niuniu computer;
+					computer.printWashCard();
+					computer.printPoint();
+					if (c.winOrLostMoney() < 0)
+					{
+						cout << "你輸了" << -c.winOrLostMoney() << "元" << endl;
+						total += c.winOrLostMoney();
+					}
+					else if (player.point() < computer.point())
+					{
+						cout << "你輸了" << c.winOrLostMoney() << "元" << endl;
+						total += -c.winOrLostMoney();
+					}
+					else
+					{
+						cout << "你贏了" << c.winOrLostMoney() << "元" << endl;
+						total += c.winOrLostMoney();
+					}
+					Sleep(1000);
+					(total > 0 ? cout << "目前贏了: " << total << "元\n" : cout << "目前輸了: " << -total << "元\n");
+					cout << "\n請輸入你的賭金(不玩請輸入-1): ";
+					cin >> playerMoney;
+				}
+				else
+				{
+					cout << "\n請輸入你的賭金(不玩請輸入-1): ";
+					cin >> playerMoney;
+					continue;
+				}
+			}
+			(total >= 0 ? cout << "恭喜你贏了 " << total << "元\n" : cout << "哈哈哈你輸了" << -total << "元\n");
+			break;
+		}
+		else if (YorN == 'N')
+		{
+			cout << "再見了您咧!!!\n\n";
+			break;
+		}
+		else
+		{
+			cout << "請輸入正確!!!\n\n";
+			cout << "是否開始遊戲??是(請輸入Y)否(請輸入N) ";
+			cin >> YorN;
+		}
+	}
 }
 void Niuniu::changeCard()
 {
@@ -142,12 +226,13 @@ int Niuniu::point()
 }
 void Niuniu::printPoint()
 {
-	cout << "原來的牌是: ";
-	printCard();
+	//cout << "原來的牌是: ";
+	//printCard();
 	changeCard();
-	cout << "後來的牌是: ";
-	printCard();
-	cout << "你的分數是: " << point() << " 分" << endl;
+	//cout << "後來的牌是: ";
+	//printCard();
+	playTimes++;
+	(playTimes % 2 == 0 ? cout << "    莊家的分數是: " << point() << " 分\n\n" : cout << "    你的分數是: " << point() << " 分\n\n");
 }
 void Niuniu::abaaba()
 {
@@ -213,4 +298,20 @@ void Niuniu::abaaba()
 	cout << "是否為小點 " << ef.isNiuniu1ToNiuniu6() << endl;
 	cout << "是否為帶公烏龍 " << ef.isMaleOolong() << endl;
 	cout << "是否為烏龍 " << ef.isNothing() << endl << endl;
+}
+void Niuniu::kkkkk()
+{
+	for (int i = 0; i < 101; i++)
+	{
+		int a = i;
+		if (a % 4 == 0)
+			cout << "遊戲加載中.   ";
+		else if (a % 4 == 1)
+			cout << "遊戲加載中..  ";
+		else
+			cout << "遊戲加載中... ";
+		cout << setw(5) << i << "%" << "\r";
+		Sleep(250);
+	}
+	cout << "\n遊戲加載成功請開始你的遊戲\n\n";
 }

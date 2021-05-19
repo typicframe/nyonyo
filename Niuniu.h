@@ -1,12 +1,12 @@
 #ifndef NIUNIU_H
 #define NIUNIU_H
 
-#include<string>
-using namespace std;
+#include"washCard.h"
 
-class Niuniu
+class Niuniu : public washCard
 {
 private:
+	static int playTimes;
 	int index = 0, size = 5;
 	int card[5];
 public:
@@ -19,7 +19,7 @@ public:
 	bool isMaleOolong();//是否為帶公烏龍(閒家贏得1倍彩金，注1賠2)
 	bool isNothing();//是否為烏龍(閒家輸掉注碼)   備註：當莊家與閒家持有同等級組牌時，比較雙方手牌中最大的那張。
 
-	void printHowToPlay();//解釋玩法
+	void startToPlay();//解釋玩法
 	void changeCard();//把大於10的牌改成10
 	int getPoint();//計算原點數
 	int point();//計算真正的點數
@@ -27,6 +27,7 @@ public:
 	void printCard();//印出牌組
 	void printPoint();//印出最終點數
 	void abaaba();//範例
+	void kkkkk();//加載中
 };
 
 #endif
